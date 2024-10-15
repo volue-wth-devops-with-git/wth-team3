@@ -6,9 +6,9 @@ on:
 env:
   CLIENT_ID: ${{ secrets.CLIENT_ID }}
   CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
-  RESOURCE_GROUP_NAME: ${{ secrets.RESOURCE_GROUP_NAME }}
-  TENANT_ID: ${{ secrets.TENANT_ID }}
-  SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  RESOURCE_GROUP_NAME: ${{ vars.RESOURCE_GROUP_NAME }}
+  TENANT_ID: ${{ vars.TENANT_ID }}
+  SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
 jobs:
   deploy:
