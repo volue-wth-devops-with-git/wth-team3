@@ -2,6 +2,8 @@ name: First Workflow
  
 on:
   workflow_dispatch:
+  issues:
+    types: [opened]
  
 jobs:
   job1:
@@ -11,7 +13,10 @@ jobs:
         run: echo "step1"
       - name: Step 2
         run: echo "step2"
+      - name: Step 3
+        run: 'false'
   cow:
+    needs: job1
     name: Cowsays
     runs-on: ubuntu-latest
     steps:
