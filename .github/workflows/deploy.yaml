@@ -2,6 +2,16 @@ name: Deploy to Azure
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'test'
+        type: choice
+        options:
+          - test
+          - dev
+          - prod
 
 jobs:
   deploy:
@@ -26,4 +36,4 @@ jobs:
         subscriptionId: ${{ vars.SUBSCRIPTION_ID }}
         resourceGroupName: ${{ vars.RESOURCE_GROUP_NAME }}
         template: 'InfrastructureAsCode/main.bicep'
-        parameters: environment=${{ env.ENVIRONMENT }}
+        parameters: environment=${{ github.event.inputs.environment }}
