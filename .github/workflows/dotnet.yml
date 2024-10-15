@@ -68,7 +68,7 @@ jobs:
       uses: Azure/webapps-deploy@v2
       with:
         app-name: 4226624vylk4u-dev
-        images: ${{secrets.ACR_LOGIN_SERVER}}/${{env.REGISTRY_NAME}}:${{env.TAG}}
+        images: ${{secrets.ACR_LOGIN_SERVER}}/${{env.REPOSITORY_NAME}}:${{env.TAG}}
 
   deploy-prod:
       needs: deploy-test
@@ -87,7 +87,7 @@ jobs:
         uses: Azure/webapps-deploy@v2
         with:
           app-name: 4226624vylk4u-prod
-          images: ${{secrets.ACR_LOGIN_SERVER}}/${{env.REGISTRY_NAME}}:${{env.TAG}}
+          images: ${{secrets.ACR_LOGIN_SERVER}}/${{env.REPOSITORY_NAME}}:${{env.TAG}}
 
   deploy-test:
     needs: deploy-dev
@@ -105,4 +105,4 @@ jobs:
       uses: Azure/webapps-deploy@v2
       with:
         app-name: 4226624vylk4u-test
-        images: ${{secrets.ACR_LOGIN_SERVER}}/${{env.REGISTRY_NAME}}:${{env.TAG}}
+        images: ${{secrets.ACR_LOGIN_SERVER}}/${{env.REPOSITORY_NAME}}:${{env.TAG}}
