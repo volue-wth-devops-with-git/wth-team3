@@ -3,6 +3,12 @@
 
 name: .NET
 
+env:
+  REGISTRY_NAME: "4226624vylk4uwthreg.azurecr.io"
+  REPOSITORY_NAME: "wth/dotnetcoreapp"
+  DOCKER_FOLDER_PATH: "Application/src/RazorPagesTestSample"
+  TAG: ${{ github.run_number }}
+
 on:
   push:
     branches: [ "main" ]
@@ -30,3 +36,17 @@ jobs:
       run: dotnet build --no-restore Application/src/RazorPagesTestSample/RazorPagesTestSample.csproj
     - name: Test
       run: dotnet test --no-build --verbosity normal Application/tests/RazorPagesTestSample.Tests/RazorPagesTestSample.Tests.csproj
+
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker login
+      run: docker login ${{env.REGISTRY_NAME}} -u ${{secrets.ACR_USERNAME}} -p ${{secrets.ACR_PASSWORD}}
+    - name: Docker build
+      run: docker build -t ${{env.REGISTRY_NAME}}/${{env.REPOSITORY_NAME}}:${{env.TAG}} --build-arg build_version=${{env.TAG}} ${{env.DOCKER_FOLDER_PATH}}
+    - name: Docker push
+      run: docker push ${{env.REGISTRY_NAME}}/${{env.REPOSITORY_NAME}}:${{env.TAG}}
+
