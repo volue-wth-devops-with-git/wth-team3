@@ -50,9 +50,13 @@ jobs:
     - name: Docker push
       run: docker push ${{env.REGISTRY_NAME}}/${{env.REPOSITORY_NAME}}:${{env.TAG}}
 
-  deploy:
+  deploy-dev:
+    needs: publish
 
     runs-on: ubuntu-latest
+
+    environment:
+        name: dev
 
     steps:
     - name: Login to Azure
@@ -66,3 +70,39 @@ jobs:
         app-name: 4226624vylk4u-dev
         images: ${{secrets.ACR_LOGIN_SERVER}}/${{env.REGISTRY_NAME}}:${{env.TAG}}
 
+  deploy-prod:
+      needs: deploy-test
+      runs-on: ubuntu-latest
+
+      environment:
+        name: prod
+
+      steps:
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+  
+      - name: Update Web App
+        uses: Azure/webapps-deploy@v2
+        with:
+          app-name: 4226624vylk4u-prod
+          images: ${{secrets.ACR_LOGIN_SERVER}}/${{env.REGISTRY_NAME}}:${{env.TAG}}
+
+  deploy-test:
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+
+    environment:
+        name: test
+
+    steps:
+    - name: Login to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}  
+    - name: Update Web App
+      uses: Azure/webapps-deploy@v2
+      with:
+        app-name: 4226624vylk4u-test
+        images: ${{secrets.ACR_LOGIN_SERVER}}/${{env.REGISTRY_NAME}}:${{env.TAG}}
