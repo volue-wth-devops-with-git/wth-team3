@@ -7,6 +7,9 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      ENVIRONMENT: test
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -23,3 +26,4 @@ jobs:
         subscriptionId: ${{ vars.SUBSCRIPTION_ID }}
         resourceGroupName: ${{ vars.RESOURCE_GROUP_NAME }}
         template: 'InfrastructureAsCode/main.bicep'
+        parameters: environment=${{ env.ENVIRONMENT }}
