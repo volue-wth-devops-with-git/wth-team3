@@ -8,7 +8,7 @@ env:
   CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
   RESOURCE_GROUP_NAME: ${{ vars.RESOURCE_GROUP_NAME }}
   TENANT_ID: ${{ vars.TENANT_ID }}
-  SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+  SUBSCRIPTION_ID: ${{ vars.SUBSCRIPTION_ID }}
 
 jobs:
   deploy:
